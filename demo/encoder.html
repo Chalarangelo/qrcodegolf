@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8"><style type="text/css">@charset "UTF-8";[ng\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak,.ng-hide:not(.ng-animate){display:none !important;}ng\:form{display:block;}</style>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>QR Encoder / Decoder by chalarangelo</title>
+	<link href="style.css" rel="stylesheet" type="text/css">
+	<script src="https://code.jquery.com/jquery-2.2.3.min.js" integrity="sha256-a23g1Nt4dtEYOj7bR+vTu7+T8VP13humZFBJNIYoEJo=" crossorigin="anonymous"></script>
+</head>
+<body class="container ng-scope" ng-app="adaptiveApp">
+	<div class="ng-scope" ng-controller="AdaptiveCtrl">
+	<header><h1 class="text-center title">QR Encoder / Decoder</h1></header>
+	<div class="body">
+		<ul id="description">
+			<li>Convert short pieces of code or text into encrypted QR codes and send them over to your friends.</li>	
+			<li>Non-ASCII characters will be ignored and will result in a '&#xFFFD' character in the decoded message.</li>
+			<li>Maximum length of messages is 256 characters, ideal for all your Code Golf needs.</li>
+			<li>Looking for the <a href="decoder.html">decoder</a>?</li>
+		</ul>
+		<br/>
+		<ol class="rounded-list">
+			<li><label for="inputarea">Insert a short piece of text/code below:</label><br/>
+				<textarea id="inputarea" rows="8" cols="32" maxlength="256" ></textarea>
+				<div id="inputarea_feedback"></div><br/>
+			</li>
+			<li><label for="passphrase">Insert an encryption key:</label><br/>
+				<input type="text" id="passphrase" size="32" maxlength="128"><br>
+				<div id="passphrase_feedback" style="font-size:10px;">For better results use the following characters:<br/>[a-z][A-Z][0-9][!@#$%'*+-/=?^_`{|}~.]</div><br/>
+			</li>
+			<li><label for="language">Pick a file type:</label>
+				<select id="language">
+					<option value="ada">Ada</option> <option value="asm">Assembly</option> <option value="awk">AWK</option>
+					<option value="bfk">Brainf**k</option> <option value="ccc">C</option> <option value="csh">C#</option>
+					<option value="cpp">C++</option> <option value="cbl">COBOL</option> <option value="ddd">D</option>
+					<option value="erl">Erlang</option> <option value="frt">Fortran</option> <option value="hsl">Haskell</option>
+					<option value="jav">Java</option> <option value="jsc">JavaScript</option> <option value="lsp">Lisp</option>
+					<option value="lua">Lua</option> <option value="mkd">Markdown</option> <option value="pas">Pascal</option>
+					<option value="prl">Perl</option> <option value="php">PHP</option> <option value="txt" selected="selected">Plaintext</option>
+					<option value="plg">Prolog</option> <option value="pyt">Python</option> <option value="rrr">R</option>
+					<option value="rub">Ruby</option> <option value="scl">Scala</option> <option value="smt">Smalltalk</option>
+					<option value="sql">SQL</option> <option value="ush">Unix Bash</option> <option value="vbn">VB.NET</option>
+					<option value="wsp">Whitespace</option> <option value="bat">Windows Batch</option> <option value="xml">XML</option>
+					<option value="oth">Other</option>
+				</select><br/><br/>
+			</li>
+			<li><button class="button" ng-click="changeValues()">Generate QR Code</button>
+			</li>
+		</ol>
+		<p><qr id="qrelem" text="qrcodeString" type-number="9" correction-level="'L'" size="256" input-mode="'NUMBER'" image="false"></qr>
+		</p>
+		<a href="" id="download">Download as image</a>
+    </div>
+	<!-- Hidden text area from angular-js-->
+    <p><textarea type="text" id="hiddenqrcodetextarea" class="textarea ng-pristine ng-untouched ng-valid" ng-model="qrcodeString" placeholder="98979797979799" style="display:none">98979797979799</textarea></p>
+
+	<footer>
+		<p class="text-center">Made by <a href="https://github.com/chalarangelo">Angelos Chalaris</a> - based on <a href="https://github.com/janantala/angular-qr/">Jan Antala's QR Generator</a>  &#9899  2016 - Licensed under the <a href="http://opensource.org/licenses/MIT">MIT License</a></p>
+	</footer>
+</div>
+
+<script src="angular.js"></script>
+<script src="qrcode.js"></script>
+<script src="angular-qr.js"></script>
+<script src="jumble.js"></script>
+<script>
+angular.module('adaptiveApp', ['ja.qr']).controller('AdaptiveCtrl', function ($scope) {
+  $scope.qrcodeString = '98979797979799';
+  $scope.changeValues=function(){
+  $scope.qrcodeString=a(false,e(false,j(false,$('#inputarea').val().length>0?$('#inputarea').val():':~NULL'),$('#passphrase').val().length>0?$('#passphrase').val():'///'))+a(false,$('#language').val());
+}
+});
+</script>
+<script>
+$(document).ready(function() {
+	document.getElementById('download').addEventListener('click', function() {
+		downloadCanvas(this, 'canvas', 'qrcode.png');
+	}, false);
+	function downloadCanvas(link, canvasId, filename) {
+		link.href = document.getElementsByTagName("canvas")[0].toDataURL("image/png");
+		link.download = filename;
+}
+
+    var text_max = 256;
+    $('#inputarea_feedback').html(text_max + ' characters remaining');
+	
+    $('#inputarea').keyup(function() {
+        var text_length = $('#inputarea').val().length;
+        var text_remaining = text_max - text_length;
+
+        $('#inputarea_feedback').html(text_remaining + ' characters remaining');
+    });
+});
+</script>
+</body></html>
