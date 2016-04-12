@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8"><style type="text/css">@charset "UTF-8";[ng\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak,.ng-hide:not(.ng-animate){display:none !important;}ng\:form{display:block;}</style>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>QR Encoder / Decoder by chalarangelo</title>
+	<link href="style.css" rel="stylesheet" type="text/css">
+	<script src="https://code.jquery.com/jquery-2.2.3.min.js" integrity="sha256-a23g1Nt4dtEYOj7bR+vTu7+T8VP13humZFBJNIYoEJo=" crossorigin="anonymous"></script>
+	<style>.rounded-list li:before{ background: #E74C3C; }</style>
+</head>
+<body>
+	<header style="background-color: #E74C3C;"><h1 class="text-center title" >QR Encoder / Decoder</h1></header>
+	<div class="body">
+		<ul id="description">
+			<li>Decode secret QR code messages that your friends have sent you, using the key they provided you with.</li>
+			<li>If the message contains a lot of '&#xFFFD' or doesn't make sense, check the encryption key.</li>
+			<li>Looking for the <a href="encoder.html">encoder</a>?</li>
+		</ul>
+		<br/>
+		
+		<ol class="rounded-list">
+			<li>
+				<label for="imageinput">Upload a QR code image to decode:</label><br/>
+				<input id="imageuploader" type="file" onchange="previewFile()"><br/>
+				<img id="imageinput" src="qrcode_gen.png" height="256" alt="Image preview...">
+				<br/>
+			</li>
+			<li><label for="passphrase">Insert the encryption key:</label><br/>
+					<input type="text" id="passphrase" size="32" maxlength="128"><br>
+					<div id="passphrase_feedback" style="font-size:10px;">Most encryption keys use the following characters:<br/>[a-z][A-Z][0-9][!@#$%'*+-/=?^_`{|}~.]</div><br/>
+			</li>
+			<li>
+				<button class="button" style="background-color: #E74C3C;" onclick="decode()">Decode QR Code</button>
+			</li>
+		</ol>
+			<p>
+				<label for="outputlang">File type:&nbsp;&nbsp;</label><input type="text" readonly id="outputlang" size="16" maxlength="32"><br/>
+				<label for="outputarea">Decoded QR code contents:</label><br/>
+				<textarea readonly id="outputarea" rows="8" cols="32" maxlength="320" ></textarea><br/>
+			</p><br/>
+		
+	</div>
+	<footer style="background-color: #E74C3C;">
+		<p class="text-center">Made by <a href="https://github.com/chalarangelo">Angelos Chalaris</a> - based on <a href="https://github.com/cirocosta/qcode-decoder">Ciro Costa's QR Decoder</a>  &#9899  2016 - Licensed under the <a href="http://opensource.org/licenses/MIT">MIT License</a></p>
+	</footer>
+	<script src="jumble.js"></script>
+	<script src="qcode-decoder.js"></script>
+	<script>
+		function previewFile(){
+		   var preview = document.querySelector('img'); //selects the query named img
+		   var file    = document.querySelector('input[type=file]').files[0]; //sames as here
+		   var reader  = new FileReader();
+
+		   reader.onloadend = function () {
+			   preview.src = reader.result;
+		   }
+
+		   if (file) {
+			   reader.readAsDataURL(file); //reads the data as a URL
+		   } else {
+			   preview.src = "";
+		   }
+		}
+  </script>
+  <script>
+		function decode(){
+			var img = document.getElementById('imageinput');
+			var qr=new QCodeDecoder;
+			qr.decodeFromImage(img,function(er,res){
+				document.getElementById('outputarea').innerText = a(true,e(true,j(true,$(res)),$('#passphrase').val().length>0?$('#passphrase').val():'///'));
+				console.log(a(true,e(true,j(true,$(res)),$('#passphrase').val().length>0?$('#passphrase').val():'///')));
+				var dec = a(true,res);
+				var lang = dec.substring(dec.length-3);
+				dec = dec.substring(0,dec.length-3);
+				dec = e(true,dec,$('#passphrase').val().length>0?$('#passphrase').val():'///');
+				dec = j(true,dec);
+				document.getElementById('outputarea').innerText = dec;
+				document.getElementById('outputlang').value = map(lang);
+				});
+		}
+		function map(ft){
+			switch(ft){
+				case "ada": return "Ada"; case "asm": return "Assembly"; case "awk": return "AWK";
+				case "bfk": return "Brainf**k"; case "ccc": return "C"; case "csh": return "C#";
+				case "cpp": return "C++"; case "cbl": return "COBOL"; case "ddd": return "D";
+				case "erl": return "Erlang"; case "frt": return "Fortran"; case "hsl": return "Haskell";
+				case "jav": return "Java"; case "jsc": return "Javascript"; case "lsp": return "Lisp";
+				case "lua": return "Lua"; case "mkd": return "Markdown"; case "pas": return "Pascal";
+				case "prl": return "Perl"; case "php": return "PHP"; case "txt": return "Plaintext";
+				case "plg": return "Prolog"; case "pyt": return "Python"; case "rrr": return "R";
+				case "rub": return "Ruby"; case "scl": return "Scala"; case "smt": return "Smalltalk";
+				case "sql": return "SQL"; case "ush": return "Unix Bash"; case "vbn": return "VB.NET";
+				case "wsp": return "Whitespace"; case "bat": return "Windows Batch"; case "xml": return "XML";
+				default: return "Other";
+			}
+		}
+  </script>
+</body>
+</html>
