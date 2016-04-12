@@ -1,7 +1,5 @@
 # QR Code Golf Encryption Library v1.0 #
 
-## Description ##
-
 This is a set of functions to encrypt some text and, using certain 3rd-party libraries, produce a nice little QR code that one can send to their friends. The project's code is minimal as the only parts I coded myself are the jumbling, encryption and mapping functions. However, when used in conjuction with the QR code encoder/decoders that I paired them in the live demo, they make a nice tool to use for encrypted communications.
 
 ## Live version ##
