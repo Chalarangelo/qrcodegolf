@@ -8,10 +8,9 @@ This is a set of functions to encrypt some text and, using certain 3rd-party lib
 
 Check out the live demo at: (http://chalarangelo.github.io/qrcodegolf/index.html)
 
-## Requirements## 
+## Requirements ##
 
 None really, but I used it with these two projects to encode/decode messages:
-
 + **angular-qr**: (https://github.com/janantala/angular-qr)
 + **qcode-decoder**: (https://github.com/cirocosta/qcode-decoder)
 
