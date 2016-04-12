@@ -1,5 +1,4 @@
 # QR Code Golf Encryption Library v1.0 #
-================================================
 
 ## Description ##
 
@@ -9,7 +8,7 @@ This is a set of functions to encrypt some text and, using certain 3rd-party lib
 
 Check out the live demo at: (http://chalarangelo.github.io/qrcodegolf/index.html)
 
-## Requirements ## 
+## Requirements## 
 
 None really, but I used it with these two projects to encode/decode messages:
 
